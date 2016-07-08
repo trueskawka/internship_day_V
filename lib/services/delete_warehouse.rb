@@ -1,9 +1,9 @@
+require_relative './fetch_warehouse'
+
 module Shop
   class DeleteWarehouse
     def call(id)
-      warehouse = WAREHOUSE.find do |warehouse|
-        warehouse.id == id
-      end
+      warehouse = FetchWarehouse.new.call(id)
 
       return unless warehouse
 
