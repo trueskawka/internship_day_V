@@ -14,6 +14,11 @@ module Shop
   BASKET = []
 
   class App < Sinatra::Base
+
+    configure :test do
+      set :dump_errors, false
+    end
+
     get "/" do
       products = FetchProducts.new.call
       erb :"products/index", locals: { products: products, title: "Products" }
@@ -21,6 +26,7 @@ module Shop
 
     get "/products/:id" do |id|
       product = FetchProduct.new.call(id)
+      halt 404 unless product
       erb :"products/show", locals: { product: product }
     end
 
@@ -30,8 +36,12 @@ module Shop
     end
 
     post "/basket" do
-      AddToBasket.new(params).call
-      redirect "/"
+      begin
+        AddToBasket.new(params).call
+        redirect "/"
+      rescue KeyError
+        halt 422
+      end
     end
   end
 end
