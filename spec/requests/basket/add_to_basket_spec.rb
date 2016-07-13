@@ -39,7 +39,7 @@ RSpec.describe "POST /basket", type: :request do
   it "call AddToBasket with proper params" do
     params =  { "product_id" => "1", "quantity" => "10" }
 
-    expect(Shop::AddToBasket).to receive(:new).with(params).and_call_original
+    expect(Shop::AddItemToBasket).to receive(:new).with(params).and_call_original
 
     do_request(params)
   end
