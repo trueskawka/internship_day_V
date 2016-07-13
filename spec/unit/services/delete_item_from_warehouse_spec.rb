@@ -1,13 +1,10 @@
 require_relative '../../../lib/services/delete_item_from_warehouse'
 
-module Shop
-  WAREHOUSE = []
-end
-
 RSpec.describe Shop::DeleteItemFromWarehouse do
   subject(:warehouse) { Shop::DeleteItemFromWarehouse.new }
 
   before do
+    allow(Shop).to receive(:WAREHOUSE).and_return([])
     Shop::WAREHOUSE.clear
   end
 
