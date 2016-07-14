@@ -1,13 +1,10 @@
-require_relative '../../../lib/services/delete_warehouse'
+require_relative '../../../lib/services/delete_item_from_warehouse'
 
-module Shop
-  WAREHOUSE = []
-end
-
-RSpec.describe Shop::DeleteWarehouse do
-  subject(:warehouse) { Shop::DeleteWarehouse.new }
+RSpec.describe Shop::DeleteItemFromWarehouse do
+  subject(:warehouse) { Shop::DeleteItemFromWarehouse.new }
 
   before do
+    allow(Shop).to receive(:WAREHOUSE).and_return([])
     Shop::WAREHOUSE.clear
   end
 
@@ -22,7 +19,7 @@ RSpec.describe Shop::DeleteWarehouse do
 
     context "valid id" do
       let(:quantity) { 10 }
-      let!(:add_to_warehouse) { Shop::WAREHOUSE << Shop::Warehouse.new(1, quantity) }
+      let!(:add_to_warehouse) { Shop::WAREHOUSE << Shop::Item.new(product_id: 1, quantity: quantity) }
       let(:first_warehouse) { Shop::WAREHOUSE.first }
 
       it "reduce quantity" do
